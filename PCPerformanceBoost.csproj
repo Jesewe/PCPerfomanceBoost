@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <StartupObject></StartupObject>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+    <Copyright>Copyright © 2023 Jesewe Science Tech</Copyright>
+    <AssemblyProduct>PCPerfomanceBoost Release</AssemblyProduct>
+    <AssemblyCompany>Jesewe Science Tech</AssemblyCompany>
+    <AssemblyDescription>PCPerformanceBoost is a powerful and user-friendly utility designed to optimize your PC's performance. It aims to enhance system efficiency, increase responsiveness, and reduce boot times, allowing you to unleash the full potential of your PC.</AssemblyDescription>
+    <AssemblyTitle>PCPerfomanceBoost</AssemblyTitle>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <AssemblyFileVersion>1.0.0.0</AssemblyFileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+    <Copyright>Copyright © 2023 Jesewe Science Tech</Copyright>
+    <AssemblyProduct>PCPerfomanceBoost Release</AssemblyProduct>
+    <AssemblyCompany>Jesewe Science Tech</AssemblyCompany>
+    <AssemblyDescription>PCPerformanceBoost is a powerful and user-friendly utility designed to optimize your PC's performance.</AssemblyDescription>
+    <AssemblyTitle>PCPerfomanceBoost</AssemblyTitle>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <AssemblyFileVersion>1.0.0.0</AssemblyFileVersion>
+  </PropertyGroup>
+
+</Project>
