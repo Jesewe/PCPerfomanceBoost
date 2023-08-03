@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using Microsoft.Win32;
+using System.Net;
 
 namespace WindowsOptimizer
 {
@@ -8,29 +9,71 @@ namespace WindowsOptimizer
     {
         static void Main(string[] args)
         {
-            string version = "1.0.0.0";
-            string title = "PCPerfomanceBooost";
-            Console.Title = $"{title} {version}";
+            string title = "PCPerfomanceBoost";
+            Console.Title = $"{title}";
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("Добро пожаловать в PCPerfomanceBoost!");
+            Console.WriteLine("Эта программа оптимизирует производительность вашего компьютера.\n");
+            CheckForUpdates();
+
             CleanCache();
             CleanTempFiles();
             CleanRegistry();
             CleanCrashDumps();
 
-            Console.WriteLine("Оптимизация завершена.");
-            PrintSystemInformation();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("\n[*] Оптимизация завершена.");
+            Console.ResetColor();
+            Console.WriteLine("\nНажмите Enter для выхода.");
             Console.ReadLine();
         }
 
+        static void CheckForUpdates()
+        {
+            string version = "1.0.0.1";
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    string latestVersion = client.DownloadString("https://raw.githubusercontent.com/Jesewe/PCPerfomanceBoost/main/latest_version.txt");
+
+                    if (latestVersion.Trim() != version)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.WriteLine($"[*] Доступна новая версия: {latestVersion}");
+                        Console.WriteLine("[*] Пожалуйста, обновитесь для получения последних исправлений и функций.\n");
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("[*] У вас установлена последняя версия.\n");
+                        Console.ResetColor();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("[!] Ошибка при проверке обновлений: " + ex.Message + "\n");
+                Console.ResetColor();
+            }
+        }
+        
         static void CleanCache()
         {
             try
             {
                 Process.Start("cleanmgr.exe", "/autoclean");
-                Console.WriteLine("Очистка кэша завершена.");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("[+] Очистка кэша завершена.");
+                Console.ResetColor();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Ошибка при очистке кэша: " + ex.Message);
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("[!] Ошибка при очистке кэша: " + ex.Message);
+                Console.ResetColor();
             }
         }
 
@@ -50,12 +93,15 @@ namespace WindowsOptimizer
                 {
                     folder.Delete(true);
                 }
-
-                Console.WriteLine("Очистка временных файлов завершена.");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("[+] Очистка временных файлов завершена.");
+                Console.ResetColor();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Ошибка при очистке временных файлов: " + ex.Message);
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("[!] Ошибка при очистке временных файлов: " + ex.Message);
+                Console.ResetColor();
             }
         }
 
@@ -64,11 +110,15 @@ namespace WindowsOptimizer
             try
             {
                 Process.Start("regedit.exe", "/s cleanup.reg");
-                Console.WriteLine("Очистка реестра завершена.");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("[+] Очистка реестра завершена.");
+                Console.ResetColor();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Ошибка при очистке реестра: " + ex.Message);
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("[!] Ошибка при очистке реестра: " + ex.Message);
+                Console.ResetColor();
             }
         }
 
@@ -82,31 +132,23 @@ namespace WindowsOptimizer
                 if (Directory.Exists(crashDumpsFolder))
                 {
                     Directory.Delete(crashDumpsFolder, true);
-                    Console.WriteLine("Очистка папки CrashDumps завершена.");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("[+] Очистка папки CrashDumps завершена.");
+                    Console.ResetColor();
                 }
                 else
                 {
-                    Console.WriteLine("Папка CrashDumps не найдена.");
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.WriteLine("[?] Папка CrashDumps не найдена.");
+                    Console.ResetColor();
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Ошибка при очистке папки CrashDumps: " + ex.Message);
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("[!] Ошибка при очистке папки CrashDumps: " + ex.Message);
+                Console.ResetColor();
             }
-        }
-        static void PrintSystemInformation()
-        {
-            Console.WriteLine("\nИнформация о системе:");
-            Console.WriteLine("--------------------------------------------------------");
-            string computerName = Environment.MachineName;
-            string osVersion = Environment.OSVersion.VersionString;
-            string currentUser = Environment.UserName;
-            string systemDirectory = Environment.SystemDirectory;
-            Console.WriteLine($"Имя компьютера: {computerName}");
-            Console.WriteLine($"Версия ОС: {osVersion}");
-            Console.WriteLine($"Текущий пользователь: {currentUser}");
-            Console.WriteLine($"Системная директория: {systemDirectory}");
-            Console.WriteLine("--------------------------------------------------------");
         }
     }
 }

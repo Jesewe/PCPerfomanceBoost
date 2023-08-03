@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <StartupObject></StartupObject>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -13,10 +14,10 @@
     <Copyright>Copyright © 2023 Jesewe Science Tech</Copyright>
     <AssemblyProduct>PCPerfomanceBoost Release</AssemblyProduct>
     <AssemblyCompany>Jesewe Science Tech</AssemblyCompany>
-    <AssemblyDescription>PCPerformanceBoost is a powerful and user-friendly utility designed to optimize your PC's performance. It aims to enhance system efficiency, increase responsiveness, and reduce boot times, allowing you to unleash the full potential of your PC.</AssemblyDescription>
+    <AssemblyDescription>PCPerformanceBoost is a powerful and user-friendly utility designed to optimize your PC's performance.</AssemblyDescription>
     <AssemblyTitle>PCPerfomanceBoost</AssemblyTitle>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <AssemblyFileVersion>1.0.0.0</AssemblyFileVersion>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <AssemblyFileVersion>1.0.0.1</AssemblyFileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -26,8 +27,12 @@
     <AssemblyCompany>Jesewe Science Tech</AssemblyCompany>
     <AssemblyDescription>PCPerformanceBoost is a powerful and user-friendly utility designed to optimize your PC's performance.</AssemblyDescription>
     <AssemblyTitle>PCPerfomanceBoost</AssemblyTitle>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <AssemblyFileVersion>1.0.0.0</AssemblyFileVersion>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <AssemblyFileVersion>1.0.0.1</AssemblyFileVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="icon.ico" />
+  </ItemGroup>
 
 </Project>
