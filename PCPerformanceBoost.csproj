@@ -16,8 +16,8 @@
     <AssemblyCompany>Jesewe Science Tech</AssemblyCompany>
     <AssemblyDescription>PCPerformanceBoost is a powerful and user-friendly utility designed to optimize your PC's performance.</AssemblyDescription>
     <AssemblyTitle>PCPerfomanceBoost</AssemblyTitle>
-    <AssemblyVersion>1.0.0.1</AssemblyVersion>
-    <AssemblyFileVersion>1.0.0.1</AssemblyFileVersion>
+    <AssemblyVersion>1.0.0.2</AssemblyVersion>
+    <AssemblyFileVersion>1.0.0.2</AssemblyFileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -27,8 +27,8 @@
     <AssemblyCompany>Jesewe Science Tech</AssemblyCompany>
     <AssemblyDescription>PCPerformanceBoost is a powerful and user-friendly utility designed to optimize your PC's performance.</AssemblyDescription>
     <AssemblyTitle>PCPerfomanceBoost</AssemblyTitle>
-    <AssemblyVersion>1.0.0.1</AssemblyVersion>
-    <AssemblyFileVersion>1.0.0.1</AssemblyFileVersion>
+    <AssemblyVersion>1.0.0.2</AssemblyVersion>
+    <AssemblyFileVersion>1.0.0.2</AssemblyFileVersion>
   </PropertyGroup>
 
   <ItemGroup>
