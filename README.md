@@ -27,17 +27,6 @@ The `CleanRegistry` method initiates the Registry Editor (`regedit.exe`) with a 
 
 The `CleanCrashDumps` method removes the CrashDumps folder located in the Local Application Data directory (`Environment.SpecialFolder.LocalApplicationData`). This folder typically contains crash dump files generated when an application encounters an error. Deleting old crash dumps can save disk space.
 
-## System Information
-
-After the optimization process is complete, the application will display system information, including:
-
-- Computer Name
-- Operating System Version
-- Current User
-- System Directory
-
-This information can be helpful in understanding your system's configuration.
-
 ## Disclaimer
 
 Please note that this application modifies system settings and files. While it aims to enhance system performance, there is always a risk associated with making changes to the system. Make sure to back up important data and create a system restore point before running this application. The author and contributors are not responsible for any data loss or damage caused by using this tool.
