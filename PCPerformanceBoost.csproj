@@ -1,20 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <StartupObject></StartupObject>
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
-    <Copyright>Copyright © 2023 Jesewe Science Tech</Copyright>
+    <Copyright>Copyright © 2024 Jesewe</Copyright>
     <AssemblyProduct>PCPerfomanceBoost Release</AssemblyProduct>
-    <AssemblyCompany>Jesewe Science Tech</AssemblyCompany>
     <AssemblyDescription>PCPerformanceBoost is a powerful and user-friendly utility designed to optimize your PC's performance.</AssemblyDescription>
     <AssemblyTitle>PCPerfomanceBoost</AssemblyTitle>
-    <AssemblyVersion>1.0.0.3</AssemblyVersion>
-    <AssemblyFileVersion>1.0.0.3</AssemblyFileVersion>
+    <AssemblyVersion>1.0.0.4</AssemblyVersion>
+    <AssemblyFileVersion>1.0.0.4</AssemblyFileVersion>
   </PropertyGroup>
 
   <ItemGroup>

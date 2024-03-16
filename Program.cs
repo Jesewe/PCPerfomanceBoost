@@ -1,26 +1,28 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Net;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace WindowsOptimizer
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            string title = "PCPerfomanceBoost";
-            Console.Title = $"{title} | JeseweScience";
+            Console.Title = "PCPerformanceBoost | Release";
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine("Welcome to PCPerfomanceBoost!");
+            Console.WriteLine("Welcome to PCPerformanceBoost!");
             Console.WriteLine("This program optimizes the performance of your computer.\n");
-            CheckForUpdates();
 
-            OptimizeMemory();
-            CleanCache();
-            CleanTempFiles();
-            CleanRegistry();
-            CleanCrashDumps();
-            ClearDNSCache();
+            await CheckForUpdatesAsync();
+
+            await OptimizeMemoryAsync();
+            await CleanCacheAsync();
+            await CleanTempFilesAsync();
+            await CleanRegistryAsync();
+            await CleanCrashDumpsAsync();
+            await ClearDNSCacheAsync();
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("\n[*] Optimization is complete.");
@@ -29,28 +31,24 @@ namespace WindowsOptimizer
             Console.ReadLine();
         }
 
-        static void CheckForUpdates()
+        static async Task CheckForUpdatesAsync()
         {
-            string version = "1.0.0.3";
+            string version = "1.0.0.4";
+            using var client = new HttpClient();
             try
             {
-                using (WebClient client = new WebClient())
+                string latestVersion = await client.GetStringAsync("https://raw.githubusercontent.com/Jesewe/PCPerfomanceBoost/main/latest_version.txt");
+                if (latestVersion.Trim() != version)
                 {
-                    string latestVersion = client.DownloadString("https://raw.githubusercontent.com/Jesewe/PCPerfomanceBoost/main/latest_version.txt");
-
-                    if (latestVersion.Trim() != version)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkYellow;
-                        Console.WriteLine($"[*] New version available: {latestVersion}");
-                        Console.WriteLine("[*] Please update for the latest fixes and features.\n");
-                        Console.ResetColor();
-                    }
-                    else
-                    {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("[*] You have the latest version installed.\n");
-                        Console.ResetColor();
-                    }
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.WriteLine($"[*] New version available: {latestVersion} | Please update for the latest fixes and features.\n");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("[*] You have the latest version installed.\n");
+                    Console.ResetColor();
                 }
             }
             catch (Exception ex)
@@ -61,77 +59,53 @@ namespace WindowsOptimizer
             }
         }
 
-        public static void OptimizeMemory()
+        static async Task OptimizeMemoryAsync()
         {
-            try
-            {
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("[+] Memory optimization is complete.");
-            }
-            catch (Exception ex)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("[!] Memory optimization error: " + ex.Message);
-            }
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("[+] Memory optimization is complete.");
         }
 
-        static void CleanCache()
+        static async Task CleanCacheAsync()
         {
-            try
-            {
-                Process.Start("cleanmgr.exe", "/autoclean");
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("[+] Cache cleanup is complete.");
-            }
-            catch (Exception ex)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("[!] Error clearing the cache: " + ex.Message);
-            }
+            Process.Start("cleanmgr.exe", "/autoclean");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("[+] Cache cleanup is complete.");
         }
 
-        static void CleanTempFiles()
+        static async Task CleanTempFilesAsync()
         {
             string tempFolderPath = Path.GetTempPath();
+            DirectoryInfo tempDir = new DirectoryInfo(tempFolderPath);
 
-            try
+            foreach (FileInfo file in tempDir.GetFiles())
             {
-                DirectoryInfo tempDir = new DirectoryInfo(tempFolderPath);
-
-                foreach (FileInfo file in tempDir.GetFiles())
+                try
                 {
-                    try
-                    {
-                        file.Delete();
-                    }
-                    catch (Exception)
-                    {
-                    }
+                    file.Delete();
                 }
-
-                foreach (DirectoryInfo subDir in tempDir.GetDirectories())
+                catch (Exception)
                 {
-                    try
-                    {
-                        subDir.Delete(true);
-                    }
-                    catch (Exception)
-                    {
-                    }
                 }
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("[+] Cleaning of temporary files is completed.");
             }
-            catch (Exception ex)
+
+            foreach (DirectoryInfo subDir in tempDir.GetDirectories())
             {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("[-] Error cleaning temporary files: " + ex.Message);
+                try
+                {
+                    subDir.Delete(true);
+                }
+                catch (Exception)
+                {
+                }
             }
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("[+] Cleaning of temporary files is completed.");
         }
 
-        static void CleanRegistry()
+        static async Task CleanRegistryAsync()
         {
             try
             {
@@ -146,34 +120,25 @@ namespace WindowsOptimizer
             }
         }
 
-        static void CleanCrashDumps()
+        static async Task CleanCrashDumpsAsync()
         {
-            try
-            {
-                string localAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                string crashDumpsFolder = Path.Combine(localAppDataPath, "CrashDumps");
+            string localAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string crashDumpsFolder = Path.Combine(localAppDataPath, "CrashDumps");
 
-                if (Directory.Exists(crashDumpsFolder))
-                {
-                    Directory.Delete(crashDumpsFolder, true);
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("[+] Clearing the CrashDumps folder is complete.");
-                    Console.ResetColor();
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.WriteLine("[?] CrashDumps folder not found.");
-                }
-            }
-            catch (Exception ex)
+            if (Directory.Exists(crashDumpsFolder))
             {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("[!] Error when clearing the CrashDumps folder: " + ex.Message);
+                Directory.Delete(crashDumpsFolder, true);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("[+] Clearing the CrashDumps folder is complete.");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("[?] CrashDumps folder not found.");
             }
         }
 
-        static void ClearDNSCache()
+        static async Task ClearDNSCacheAsync()
         {
             try
             {
