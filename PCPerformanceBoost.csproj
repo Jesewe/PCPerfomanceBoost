@@ -6,18 +6,35 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <StartupObject></StartupObject>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
     <Copyright>Copyright © 2024 Jesewe</Copyright>
     <AssemblyProduct>PCPerfomanceBoost Release</AssemblyProduct>
     <AssemblyDescription>PCPerformanceBoost is a powerful and user-friendly utility designed to optimize your PC's performance.</AssemblyDescription>
     <AssemblyTitle>PCPerfomanceBoost</AssemblyTitle>
-    <AssemblyVersion>1.0.0.4</AssemblyVersion>
-    <AssemblyFileVersion>1.0.0.4</AssemblyFileVersion>
+    <AssemblyVersion>1.0.0.5</AssemblyVersion>
+    <AssemblyFileVersion>1.0.0.5</AssemblyFileVersion>
+    <ProductVersion>1.0.0.5</ProductVersion>
+    
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="icon.ico" />
+    <Content Include="Resources\Icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

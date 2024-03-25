@@ -10,10 +10,10 @@ namespace WindowsOptimizer
     {
         static async Task Main(string[] args)
         {
-            Console.Title = "PCPerformanceBoost | Release";
+            int bitness = IntPtr.Size * 8;
+            Console.Title = $"PCPerformanceBoost | Release x{bitness}";
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine("Welcome to PCPerformanceBoost!");
-            Console.WriteLine("This program optimizes the performance of your computer.\n");
+            Console.WriteLine("[*] Welcome to PCPerformanceBoost!\n\n[*] This program optimizes the performance of your computer.\n");
 
             await CheckForUpdatesAsync();
 
@@ -33,7 +33,7 @@ namespace WindowsOptimizer
 
         static async Task CheckForUpdatesAsync()
         {
-            string version = "1.0.0.4";
+            string version = "1.0.0.5";
             using var client = new HttpClient();
             try
             {
@@ -69,7 +69,19 @@ namespace WindowsOptimizer
 
         static async Task CleanCacheAsync()
         {
-            Process.Start("cleanmgr.exe", "/autoclean");
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = "cleanmgr.exe",
+                Arguments = "/autoclean",
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            using (Process process = Process.Start(startInfo))
+            {
+                process.WaitForExit();
+            }
+
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("[+] Cache cleanup is complete.");
         }
@@ -79,31 +91,42 @@ namespace WindowsOptimizer
             string tempFolderPath = Path.GetTempPath();
             DirectoryInfo tempDir = new DirectoryInfo(tempFolderPath);
 
+            var tasks = new List<Task>();
+
             foreach (FileInfo file in tempDir.GetFiles())
             {
-                try
+                tasks.Add(Task.Run(() =>
                 {
-                    file.Delete();
-                }
-                catch (Exception)
-                {
-                }
+                    try
+                    {
+                        file.Delete();
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }));
             }
 
             foreach (DirectoryInfo subDir in tempDir.GetDirectories())
             {
-                try
+                tasks.Add(Task.Run(() =>
                 {
-                    subDir.Delete(true);
-                }
-                catch (Exception)
-                {
-                }
+                    try
+                    {
+                        subDir.Delete(true);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }));
             }
+
+            await Task.WhenAll(tasks);
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("[+] Cleaning of temporary files is completed.");
         }
+
 
         static async Task CleanRegistryAsync()
         {
@@ -122,8 +145,8 @@ namespace WindowsOptimizer
 
         static async Task CleanCrashDumpsAsync()
         {
-            string localAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            string crashDumpsFolder = Path.Combine(localAppDataPath, "CrashDumps");
+            string localCrashDumpsPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string crashDumpsFolder = Path.Combine(localCrashDumpsPath, "CrashDumps");
 
             if (Directory.Exists(crashDumpsFolder))
             {
@@ -152,8 +175,8 @@ namespace WindowsOptimizer
 
                 process.Start();
 
-                process.StandardOutput.ReadToEnd();
-                process.StandardError.ReadToEnd();
+                await process.StandardOutput.ReadToEndAsync();
+                await process.StandardError.ReadToEndAsync();
 
                 process.WaitForExit();
                 Console.ForegroundColor = ConsoleColor.Green;
